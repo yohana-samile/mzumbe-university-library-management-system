@@ -13,8 +13,8 @@
             Schema::create('time_entrys', function (Blueprint $table) {
                 $table->id();
                 $table->unsignedBigInteger('user_id');
-                $table->timestamp('time_in');
-                $table->timestamp('time_out');
+                $table->timestamp('time_in')->nullable();
+                $table->timestamp('time_out')->nullable();
                 $table->timestamps();
                 $table->foreign('user_id')->references('id')->on('users');
             });

@@ -14,7 +14,7 @@
                 $table->id();
                 $table->time('open')->nullable();
                 $table->time('close')->nullable();
-                $table->boolen('holiday')->default(false);
+                $table->boolean('holiday')->default(false);
                 $table->timestamps();
             });
         }
