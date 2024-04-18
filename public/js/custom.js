@@ -1,64 +1,150 @@
-jQuery.noConflict();
-(function ($) {
-    $(document).ready(function () {
-        $('#register_book_action').on('submit', function (e) {
-            e.preventDefault();
-            var url = "register_book_action";
-            var formData = new FormData(this);
+$(document).ready(function () {
+    var today = new Date();
+    var nextTwoDays = new Date(today);
+    nextTwoDays.setDate(today.getDate() + 2);
+    var formattedDate = nextTwoDays.toISOString().slice(0, 10);
+    document.getElementById("toBeReturnedOn").value = formattedDate;
+});
 
-            $.ajax({
-                type: "POST",
-                url: url,
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function (response) {
-                    swal.fire("success", "Book Registered Successfully").then((result) =>{
-                        if (result.isConfirmed) {
-                            window.location.href = "book/index";
-                        }
-                    });
-                    $("#register_book_action")[0].reset();
-                },
-                error: function () {
-                // error: function(xhr, status, error) {
-                    swal.fire("error", "something went wrong, try again");
-                    // console.log("XHR status: " + status);
-                    // console.log("Error message: " + error);
-                    // console.log("Server response: " + xhr.responseText);
-                }
-            });
+$(document).ready(function () {
+    $('#register_book_action').on('submit', function (e) {
+        e.preventDefault();
+        var url = "register_book_action";
+        var formData = new FormData(this);
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                swal.fire("success", "Book Registered Successfully").then((result) =>{
+                    if (result.isConfirmed) {
+                        window.location.href = "/book/index";
+                    }
+                });
+                $("#register_book_action")[0].reset();
+            },
+            // error: function(xhr, status, error) {
+            // console.log("XHR status: " + status);
+            // console.log("Error message: " + error);
+            // console.log("Server response: " + xhr.responseText);
+            error: function () {
+                swal.fire("error", "something went wrong, try again");
+            }
         });
+    });
 
 
-        // register_book_genre_action
-        $('#register_book_genre_action').on('submit', function (e) {
-            e.preventDefault();
-            var url = "/book/register_book_genre_action";
-            var formData = new FormData(this);
+    // register_book_genre_action
+    $('#register_book_genre_action').on('submit', function (e) {
+        e.preventDefault();
+        var url = "/book/register_book_genre_action";
+        var formData = new FormData(this);
 
-            $.ajax({
-                type: "POST",
-                url: url,
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function (response) {
-                    swal.fire("success", "Book Genre Added Successfully").then((result) =>{
-                        if (result.isConfirmed) {
-                            window.location.href = "book/genre";
-                        }
-                    });
-                    $("#register_book_genre_action")[0].reset();
-                },
-                error: function () {
-                // error: function(xhr, status, error) {
-                    swal.fire("error", "something went wrong, try again");
-                    // console.log("XHR status: " + status);
-                    // console.log("Error message: " + error);
-                    // console.log("Server response: " + xhr.responseText);
-                }
-            });
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                swal.fire("success", "Book Genre Added Successfully").then((result) =>{
+                    if (result.isConfirmed) {
+                        window.location.href = "/book/genre";
+                    }
+                });
+                $("#register_book_genre_action")[0].reset();
+            },
+            error: function () {
+                swal.fire("error", "something went wrong, try again");
+            }
+        });
+    });
+
+    // update_book_detail
+    $('#update_book_detail').on('submit', function (e) {
+        e.preventDefault();
+        var url = "/book/update_book_detail";
+        var formData = new FormData(this);
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                swal.fire("success", "Book Details Updated Successfully").then((result) =>{
+                    if (result.isConfirmed) {
+                        window.location.href = "/book/index";
+                    }
+                });
+                $("#update_book_detail")[0].reset();
+            },
+            error: function () {
+                swal.fire("error", "something went wrong, try again");
+            }
+        });
+    });
+
+
+    // borrow_this_book
+    $('#borrow_this_book').on('submit', function (e) {
+        e.preventDefault();
+        var url = "/book/borrow_this_book";
+        var formData = new FormData(this);
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                swal.fire("success", "Book Borrowed Successfully, Return It Before Two Days From Now").then((result) =>{
+                    if (result.isConfirmed) {
+                        window.location.href = "/book/index";
+                    }
+                });
+                $("#borrow_this_book")[0].reset();
+            },
+            error: function () {
+                swal.fire("error", "something went wrong, try again");
+            }
+        });
+    });
+
+
+    // return_this_book
+    $('#return_this_book').on('submit', function (e) {
+        e.preventDefault();
+        var url = "/book/return_this_book";
+        var formData = new FormData(this);
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                swal.fire("success", "Book Returned Successfully, Thank Your Trust").then((result) =>{
+                    if (result.isConfirmed) {
+                        window.location.href = "/book/book_issued";
+                    }
+                });
+                $("#return_this_book")[0].reset();
+            },
+            error: function(xhr, status, error) {
+                console.log("XHR status: " + status);
+                console.log("Error message: " + error);
+                console.log("Server response: " + xhr.responseText);
+            }
+            // error: function () {
+            //     swal.fire("error", "something went wrong, try again");
+            // }
         });
     });
 });

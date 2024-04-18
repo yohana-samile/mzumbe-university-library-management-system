@@ -7,8 +7,8 @@
                 <h6>Register new book </h6>
             </div>
             <div class="card-body">
-                <form method="POST" action="register_book_action">
-                {{-- <form id="register_book_action"> --}}
+                {{-- <form method="POST" action="register_book_action"> --}}
+                <form id="register_book_action">
                     @csrf
                     <div class="mb-3">
                         <label for="book_title">{{__('book title')}}</label>

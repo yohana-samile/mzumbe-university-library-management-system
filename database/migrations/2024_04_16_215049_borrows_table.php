@@ -12,6 +12,8 @@
         {
             Schema::create('borrows', function (Blueprint $table) {
                 $table->id();
+                $table->boolean('returned')->default(false);
+                $table->date('toBeReturnedOn');
                 $table->unsignedBigInteger('book_id');
                 $table->unsignedBigInteger('user_id');
                 $table->timestamps();

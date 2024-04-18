@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="table-borded text-capitalize table-responsive">
+                <div class="table table-bordered text-capitalize table-responsive">
                     <table class="table" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
@@ -49,15 +49,20 @@
                                         <td>{{ $book->book_title }}</td>
                                         <td>{{ $book->publication_date }}</td>
                                         <td>{{ $book->edication }}</td>
-                                        <td>{{ $book->genres->name }}</td>
+                                        <td>{{ $book->name }}</td>
                                         <td>{{ $book->total_copies }}</td>
                                         <td>
                                             <div class="row">
                                                 <div class="col-md-4">
-                                                    <i class="fa fa-eye text-primary"></i>
+                                                    <a href="{{url('book/view_book', [$book->id])}}">
+                                                        <i class="fa fa-eye text-primary"></i>
+                                                    </a>
                                                 </div>
+                                                {{-- for student see borrow btn --}}
                                                 <div class="col-md-4">
-                                                    <i class="fa fa-edit text-success"></i>
+                                                    <a href="{{url('book/edit_book', [$book->id])}}">
+                                                        <i class="fa fa-edit text-success"></i>
+                                                    </a>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <i class="fa fa-trash text-danger"></i>

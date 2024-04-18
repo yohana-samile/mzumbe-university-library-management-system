@@ -21,4 +21,5 @@
             </div>
         </div>
     </div>
+    <script src="{{url('js/custom.js')}}"></script>
 @endsection

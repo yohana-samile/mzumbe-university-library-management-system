@@ -46,6 +46,7 @@
                         {{-- @endif --}}
                         <a class="collapse-item" href="{{ url('book/index')}}">{{__('Books')}}</a>
                         <a class="collapse-item" href="{{ url('book/genre')}}">{{__('Genres')}}</a>
+                        <a class="collapse-item" href="{{ url('book/book_issued')}}">{{__('Book Issued')}}</a>
                     </div>
                 </div>
             </li>

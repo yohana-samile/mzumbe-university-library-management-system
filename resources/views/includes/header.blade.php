@@ -5,10 +5,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>{{ config('app.name', 'MULMS') }}</title>
-        {{-- <link rel="dns-prefetch" href="//fonts.bunny.net"> --}}
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link rel="dns-prefetch" href="//fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
         <link href="{{ url("vendor/fontawesome-free/css/all.min.css")}}" rel="stylesheet" type="text/css">
-        {{-- <link href="{{ url("css/mulms.min.css")}}" rel="stylesheet"> --}}
+        <link href="{{ url("css/mulms.min.css")}}" rel="stylesheet">
         <link href="{{ url("css/style.css")}}" rel="stylesheet">
         <link href="{{ url("vendor/datatables/dataTables.bootstrap4.min.css")}}" rel="stylesheet">
 

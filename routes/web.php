@@ -28,4 +28,14 @@
         Route::get('book/genre', 'genre');
         Route::get('book/register_book_genre', 'register_book_genre');
         Route::post('/book/register_book_genre_action', 'register_book_genre_action')->name('register_book_genre_action');
+
+        Route::get('book/view_book/{id}', 'view_book');
+        Route::get('book/edit_book/{id}', 'edit_book');
+        Route::post('book/update_book_detail', 'update_book_detail');
+
+        // borrow_this_book
+        Route::post('book/borrow_this_book', 'borrow_this_book');
+        Route::get('book/book_issued', 'book_issued');
+        // return_this_book
+        Route::post('book/return_this_book', 'return_this_book');
     })->middleware('auth');
