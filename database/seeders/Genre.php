@@ -15,6 +15,8 @@
                 ['name' => 'science fiction'],
                 ['name' => 'romance'],
                 ['name' => 'Recerved Book'],
+                ['name' => 'Management'],
+                ['name' => 'General'],
                 ['name' => 'academic'],
             ]);
         }

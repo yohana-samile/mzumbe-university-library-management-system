@@ -41,6 +41,10 @@ DB_PORT=3306
 
 DB_DATABASE=DEVELOPER_SAMILE
 
+php artisan serve
+npm run dev
+
+
 scope of this project based on student final year project at Mzumbe univeristy
 
 --> owner of the project Stanley Mtui
