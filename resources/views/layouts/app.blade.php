@@ -55,6 +55,15 @@
             @if ($userRole->name != 'is_student')
                 <!-- Divider -->
                 <hr class="sidebar-divider">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url('view_fine')}}">
+                        <i class="fa fa-money">$</i>
+                        <span>{{__("Fines")}}</span></a>
+                </li>
+                <!-- Divider -->
+                <hr class="sidebar-divider">
+                <!-- Divider -->
+                <hr class="sidebar-divider">
                 <!-- Heading -->
                 <div class="sidebar-heading">
                     {{__("Lesson")}}
@@ -78,20 +87,20 @@
                 <hr class="sidebar-divider">
                 <!-- Heading -->
                 <div class="sidebar-heading">
-                    {{__("Subjects")}}
+                    {{__("Services")}}
                 </div>
-                <!-- Nav Item - Subjects Collapse Menu -->
+                <!-- Nav Item - Services Collapse Menu -->
                 <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSubjects"
-                        aria-expanded="true" aria-controls="collapseSubjects">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseServices"
+                        aria-expanded="true" aria-controls="collapseServices">
                         <i class="fas fa-fw fa-book"></i>
-                        <span>{{__("Subjects")}}</span>
+                        <span>{{__("Services")}}</span>
                     </a>
-                    <div id="collapseSubjects" class="collapse" aria-labelledby="headingSubjects"
+                    <div id="collapseServices" class="collapse" aria-labelledby="headingServices"
                         data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <h6 class="collapse-header">{{__("Subjects:")}}</h6>
-                            <a class="collapse-item" href="{{url("subject/index")}}">{{__("Manage Subject")}}</a>
+                            <h6 class="collapse-header">{{__("Services:")}}</h6>
+                            <a class="collapse-item" href="{{url("services/index")}}">{{__("Manage Services")}}</a>
                         </div>
                     </div>
                 </li>

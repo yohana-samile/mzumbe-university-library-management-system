@@ -5,6 +5,7 @@
     use App\Models\Book;
     use App\Models\Genre;
     use App\Models\Borrow;
+    use App\Models\Fine;
     use Illuminate\Support\Facades\Validator;
     use Illuminate\Http\JSonResponse;
     use DB;
@@ -158,10 +159,44 @@
             }
         }
 
+        // borrow_info
+        public function borrow_info($id){
+            $add_fine = Borrow::with('users')->find($id); //$add_fine = DB::select("SELECT users.name as user_name, borrows.toBeReturnedOn, borrows.id as borrow_id FROM users, borrows WHERE borrows.user_id = users.id AND borrows.id = '$id' ")->first();
+            return view('book/borrow_info', compact('add_fine'));
+        }
+        public function view_fine_action(Request $request){
+            $validateData = $request->validate([
+                'borrow_id' => 'required',
+                'amount' => 'required',
+            ]);
+            $insert = Fine::create($validateData);
+            if ($insert) {
+                return response()->json('success');
+            }
+            else{
+                return response()->json('error');
+            }
+        }
+
         // view_fine
         public function view_fine(){
-            $fines = DB::select("SELECT genres.name as genre_name, books.id, books.book_title, books.edication, books.isbn, books.publication_date, books.total_copies, users.name as user_name, borrows.returned, borrows.toBeReturnedOn, borrows.created_at, borrows.id as borrow_id FROM genres, books, users, borrows WHERE books.genre_id = genres.id AND borrows.user_id = users.id AND borrows.book_id = books.id ");
-            return view('book/view_fine', compact('fines'));
+            $fines = DB::select("SELECT fines.paid, fines.amount, fines.created_at, fines.id, books.book_title, users.name as user_name, borrows.toBeReturnedOn, borrows.created_at as borrow_date FROM fines, books, users, borrows WHERE fines.borrow_id = borrows.id AND borrows.user_id = users.id AND borrows.book_id = books.id ");
+            return view('view_fine', compact('fines'));
+        }
+
+        // pay_my_fine
+        public function pay_my_fine(Request $request){
+            $validateData = $request->validate([
+                'id' => 'required',
+            ]);
+            $id = $request->input('id');
+            if ($id) {
+                DB::update("UPDATE `fines` SET `paid` = '1' WHERE `fines`.`id` = '$id'  ");
+                return response()->json('success');
+            }
+            else{
+                return response()->json('error');
+            }
         }
     }
 

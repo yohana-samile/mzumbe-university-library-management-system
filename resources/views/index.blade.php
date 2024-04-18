@@ -65,40 +65,23 @@
     </div>
 
     <div class="container bg-light">
-        <div class="text-center">
+        <div class="text-center" id="our_service">
             <h4>Our Services</h4>
             <input type="range" value="Our Services">
         </div>
-        <div class="list-group" id="our_service">
-            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active" style="background-color: #ffffff; color:black">
-              <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">List group item heading</h5>
-                <small>3 days ago</small>
-              </div>
-              <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-              <small>Donec id elit non mi porta.</small>
-            </a>
-        </div>
-        <div class="list-group my-4">
-            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active" style="background-color: #ffffff; color:black">
-                <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1">List group item heading</h5>
-                  <small>posted 3 days ago</small>
+        @php
+            use App\Models\Service;
+            $services = Service::take(4)->get()->sortByDesc('created_at');
+            use Illuminate\Support\Facades\DB;
+        @endphp
+        @if (!empty($services))
+            @foreach ($services as $service)
+                <div class="alert alert-primary back-widget-set text-center">
+                    <i class="fa fa-server fa-5x"></i>
+                    <h3>{{$service->name}}</h3>
                 </div>
-                <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                <small>Donec id elit non mi porta.</small>
-            </a>
-        </div>
-        <div class="list-group my-4">
-            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active" style="background-color: #ffffff; color:black">
-                <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1">List group item heading</h5>
-                  <small>3 days ago</small>
-                </div>
-                <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                <small>Donec id elit non mi porta.</small>
-            </a>
-        </div>
+            @endforeach
+        @endif
     </div>
 
     {{-- announcement --}}

@@ -1,6 +1,7 @@
 <?php
     use Illuminate\Support\Facades\Route;
     use App\Http\Controllers\Book\BookController;
+    use App\Http\Controllers\Service\ServiceController;
     /*
     |--------------------------------------------------------------------------
     | Web Routes
@@ -33,9 +34,22 @@
         Route::get('book/edit_book/{id}', 'edit_book');
         Route::post('book/update_book_detail', 'update_book_detail');
 
-        // borrow_this_book
+        // borrow
         Route::post('book/borrow_this_book', 'borrow_this_book');
         Route::get('book/book_issued', 'book_issued');
+        Route::get('book/borrow_info/{id}', 'borrow_info');
         // return_this_book
         Route::post('book/return_this_book', 'return_this_book');
+        // fine
+        Route::get('view_fine', 'view_fine');
+        Route::post('book/view_fine_action', 'view_fine_action'); //add fine
+        Route::post('pay_my_fine', 'pay_my_fine');
+    })->middleware('auth');
+
+
+    Route::controller(ServiceController::class)->group(function () {
+        Route::get('services/index', 'index');
+        Route::get('services/add_service', 'add_service');
+        Route::post('/services/add_service_action', 'add_service_action')->name('add_service_action');
+        Route::post('/services/delete_service', 'delete_service')->name('delete_service');
     })->middleware('auth');

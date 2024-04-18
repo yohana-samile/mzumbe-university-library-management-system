@@ -60,7 +60,7 @@
                                         <td>
                                             <div class="row">
                                                 <div class="col-md-4">
-                                                    <a href="{{url('book/view_fine', [$borrower->borrow_id])}}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="View Fine">
+                                                    <a href="{{url('book/borrow_info', [$borrower->borrow_id])}}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="View Fine">
                                                         <i class="fa fa-eye text-primary"></i>
                                                     </a>
                                                 </div>

@@ -137,14 +137,113 @@ $(document).ready(function () {
                 });
                 $("#return_this_book")[0].reset();
             },
-            error: function(xhr, status, error) {
-                console.log("XHR status: " + status);
-                console.log("Error message: " + error);
-                console.log("Server response: " + xhr.responseText);
+            error: function () {
+                swal.fire("error", "something went wrong, try again");
             }
-            // error: function () {
-            //     swal.fire("error", "something went wrong, try again");
-            // }
+        });
+    });
+
+    // add_fine_to_this_student
+    $('#add_fine_to_this_student').on('submit', function (e) {
+        e.preventDefault();
+        var url = "/book/view_fine_action";
+        var formData = new FormData(this);
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                swal.fire("success", "Fine Added").then((result) =>{
+                    if (result.isConfirmed) {
+                        window.location.href = "view_fine";
+                    }
+                });
+                $("#add_fine_to_this_student")[0].reset();
+            },
+            error: function () {
+                swal.fire("error", "something went wrong, try again");
+            }
+        });
+    });
+
+    // pay_my_fine
+    $('#pay_my_fine').on('submit', function (e) {
+        e.preventDefault();
+        var url = "pay_my_fine";
+        var formData = new FormData(this);
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                swal.fire("success", "Fine Paid Successfully").then((result) =>{
+                    if (result.isConfirmed) {
+                        window.location.href = "view_fine";
+                    }
+                });
+                $("#pay_my_fine")[0].reset();
+            },
+            error: function () {
+                swal.fire("error", "something went wrong, try again");
+            }
+        });
+    });
+
+
+    $('#add_service_action').on('submit', function (e) {
+        e.preventDefault();
+        var url = "/services/add_service_action";
+        var formData = new FormData(this);
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                swal.fire("success", "Service Added Successfully").then((result) =>{
+                    if (result.isConfirmed) {
+                        window.location.href = "/services/index";
+                    }
+                });
+                $("#add_service_action")[0].reset();
+            },
+            error: function () {
+                swal.fire("error", "something went wrong, try again");
+            }
+        });
+    });
+
+
+    $('#delete_service').on('submit', function (e) {
+        e.preventDefault();
+        var url = "/services/delete_service";
+        var formData = new FormData(this);
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                swal.fire("success", "Service Deleted Successfully").then((result) =>{
+                    if (result.isConfirmed) {
+                        window.location.href = "/services/index";
+                    }
+                });
+                $("#delete_service")[0].reset();
+            },
+            error: function () {
+                swal.fire("error", "something went wrong, try again");
+            }
         });
     });
 });

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('fines', function (Blueprint $table) {
             $table->id();
             $table->integer('amount');
+            $table->boolean('paid')->default(false);
             $table->unsignedBigInteger('borrow_id');
             $table->timestamps();
             $table->foreign('borrow_id')->references('id')->on('borrows');
