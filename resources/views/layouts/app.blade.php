@@ -84,27 +84,6 @@
                     </div>
                 </li>
 
-                <hr class="sidebar-divider">
-                <!-- Heading -->
-                <div class="sidebar-heading">
-                    {{__("Services")}}
-                </div>
-                <!-- Nav Item - Services Collapse Menu -->
-                <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseServices"
-                        aria-expanded="true" aria-controls="collapseServices">
-                        <i class="fas fa-fw fa-book"></i>
-                        <span>{{__("Services")}}</span>
-                    </a>
-                    <div id="collapseServices" class="collapse" aria-labelledby="headingServices"
-                        data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <h6 class="collapse-header">{{__("Services:")}}</h6>
-                            <a class="collapse-item" href="{{url("services/index")}}">{{__("Manage Services")}}</a>
-                        </div>
-                    </div>
-                </li>
-
                 <!-- Divider -->
                 <hr class="sidebar-divider">
                 <!-- Heading -->
@@ -143,10 +122,10 @@
                         data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">{{__("Utilities:")}}</h6>
-                            <a class="collapse-item" href="{{ url('utilities/grade') }}">{{__("Grade")}}</a>
-                            <a class="collapse-item" href="{{ url('utilities/education_qualification') }}">{{__("Education qualification")}}</a>
-                            <a class="collapse-item" href="{{ url('utilities/form') }}">{{__("Form")}}</a>
-                            <a class="collapse-item" href="{{ url('utilities/semester') }}">{{__("Semester")}}</a>
+                            <a class="collapse-item" href="{{ url('events/index') }}">{{__("Event & Announcement")}}</a>
+                            <a class="collapse-item" href="{{url("services/index")}}">{{__("Manage Services")}}</a>
+                            <a class="collapse-item" href="{{ url('utilities/form') }}">{{__("Unit")}}</a>
+                            <a class="collapse-item" href="{{ url('utilities/semester') }}">{{__("Programme")}}</a>
                         </div>
                     </div>
                 </li>

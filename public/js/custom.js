@@ -30,6 +30,7 @@ $(document).ready(function () {
             // console.log("XHR status: " + status);
             // console.log("Error message: " + error);
             // console.log("Server response: " + xhr.responseText);
+            // }
             error: function () {
                 swal.fire("error", "something went wrong, try again");
             }
@@ -195,7 +196,7 @@ $(document).ready(function () {
         });
     });
 
-
+    // add_service
     $('#add_service_action').on('submit', function (e) {
         e.preventDefault();
         var url = "/services/add_service_action";
@@ -221,7 +222,7 @@ $(document).ready(function () {
         });
     });
 
-
+    // delete_service
     $('#delete_service').on('submit', function (e) {
         e.preventDefault();
         var url = "/services/delete_service";
@@ -240,6 +241,59 @@ $(document).ready(function () {
                     }
                 });
                 $("#delete_service")[0].reset();
+            },
+            error: function () {
+                swal.fire("error", "something went wrong, try again");
+            }
+        });
+    });
+
+
+    // add_service
+    $('#add_event_action').on('submit', function (e) {
+        e.preventDefault();
+        var url = "/events/add_event_action";
+        var formData = new FormData(this);
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                swal.fire("success", "Event Added Successfully").then((result) =>{
+                    if (result.isConfirmed) {
+                        window.location.href = "/events/index";
+                    }
+                });
+                $("#add_event_action")[0].reset();
+            },
+            error: function () {
+                swal.fire("error", "something went wrong, try again");
+            }
+        });
+    });
+
+    // delete_event
+    $('#delete_event_or_announcement').on('submit', function (e) {
+        e.preventDefault();
+        var url = "/events/delete_event";
+        var formData = new FormData(this);
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                swal.fire("success", "Event Or Announcements Deleted Successfully").then((result) =>{
+                    if (result.isConfirmed) {
+                        window.location.href = "/events/index";
+                    }
+                });
+                $("#delete_event_or_announcement")[0].reset();
             },
             error: function () {
                 swal.fire("error", "something went wrong, try again");

@@ -6,6 +6,6 @@
     class Event_and_announcement extends Model {
         use HasFactory;
         protected $fillable = [
-            'name', 'date'
+            'name', 'event_image'
         ];
     }

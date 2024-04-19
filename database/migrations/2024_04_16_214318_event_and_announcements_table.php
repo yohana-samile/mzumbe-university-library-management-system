@@ -12,7 +12,8 @@
         {
             Schema::create('event_and_announcements', function (Blueprint $table) {
                 $table->id();
-                $table->string('name');
+                $table->text('name');
+                $table->text('event_image');
                 $table->date('date')->nullable();
                 $table->timestamps();
             });

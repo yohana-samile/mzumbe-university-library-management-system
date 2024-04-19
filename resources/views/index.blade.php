@@ -71,7 +71,9 @@
         </div>
         @php
             use App\Models\Service;
+            use App\Models\Event_and_announcement;
             $services = Service::take(4)->get()->sortByDesc('created_at');
+            $events = Event_and_announcement::take(4)->get()->sortByDesc('created_at');
             use Illuminate\Support\Facades\DB;
         @endphp
         @if (!empty($services))
@@ -89,65 +91,32 @@
         <div class="text-center">
             <h4>Announcemnts and Events</h4>
             <input type="range" value="Our Services">
-            <div class="row" id="announcement">
-                <div class="col-md-4">
-                    <div class="card border-primary mb-3" style="max-width: 20rem;">
-                        <div class="card-body">
-                          <h4 class="card-title">primary card title</h4>
-                          <img src="{{url('img/cover/hero.jpg')}}" alt="" width="100%" height="150px">
-                          <p class="card-text">Some quick example text to build on</p>
+            <div id="announcement">
+                @if (!empty($events))
+                <div class="row">
+                    @foreach ($events as $key => $event)
+                        <div class="col-md-4">
+                            <div class="card border-primary mb-3" style="max-width: 20rem;">
+                                <div class="card-body">
+                                    <h4 class="card-title">Event Name {{$event->name}}</h4>
+                                    <img src="{{Storage::url($event->event_image)}}" alt="" width="100%" height="150px">
+                                    <p class="card-text"><a href="javascript:void(0)">Read More</a></p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card border-primary mb-3" style="max-width: 20rem;">
-                        <div class="card-body">
-                          <h4 class="card-title">primary card title</h4>
-                          <img src="{{url('img/cover/hero.jpg')}}" alt="" width="100%" height="150px">
-                          <p class="card-text">Some quick example text to build on</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card border-primary mb-3" style="max-width: 20rem;">
-                        <div class="card-body">
-                          <h4 class="card-title">primary card title</h4>
-                          <img src="{{url('img/cover/hero.jpg')}}" alt="" width="100%" height="150px">
-                          <p class="card-text">Some quick example text to build on</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            {{-- row-2 --}}
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="card border-primary mb-3" style="max-width: 20rem;">
-                        <div class="card-body">
-                          <h4 class="card-title">primary card title</h4>
-                          <img src="{{url('img/cover/hero.jpg')}}" alt="" width="100%" height="150px">
-                          <p class="card-text">Some quick example text to build on</p>
-                        </div>
-                    </div>
+                        {{-- Check if it's the last card or the third card in a row --}}
+                        @if (($key + 1) % 3 == 0 || $loop->last)
+                            </div> {{-- Close the row --}}
+                            {{-- If it's not the last event, open a new row --}}
+                            @if (!$loop->last)
+                                <div class="row">
+                            @endif
+                        @endif
+                    @endforeach
                 </div>
-                <div class="col-md-4">
-                    <div class="card border-primary mb-3" style="max-width: 20rem;">
-                        <div class="card-body">
-                          <h4 class="card-title">primary card title</h4>
-                          <img src="{{url('img/cover/hero.jpg')}}" alt="" width="100%" height="150px">
-                          <p class="card-text">Some quick example text to build on</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card border-primary mb-3" style="max-width: 20rem;">
-                        <div class="card-body">
-                          <h4 class="card-title">primary card title</h4>
-                          <img src="{{url('img/cover/hero.jpg')}}" alt="" width="100%" height="150px">
-                          <p class="card-text">Some quick example text to build on</p>
-                        </div>
-                    </div>
-                </div>
+
+                @endif
             </div>
         </div>
     </div>

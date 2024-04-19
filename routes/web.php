@@ -2,6 +2,7 @@
     use Illuminate\Support\Facades\Route;
     use App\Http\Controllers\Book\BookController;
     use App\Http\Controllers\Service\ServiceController;
+    use App\Http\Controllers\Event\Event_And_AnnouncementController;
     /*
     |--------------------------------------------------------------------------
     | Web Routes
@@ -52,4 +53,12 @@
         Route::get('services/add_service', 'add_service');
         Route::post('/services/add_service_action', 'add_service_action')->name('add_service_action');
         Route::post('/services/delete_service', 'delete_service')->name('delete_service');
+    })->middleware('auth');
+
+
+    Route::controller(Event_And_AnnouncementController::class)->group(function () {
+        Route::get('events/index', 'index');
+        Route::get('events/add_event', 'add_event');
+        Route::post('/events/add_event_action', 'add_event_action')->name('add_event_action');
+        Route::post('/events/delete_event', 'delete_event');
     })->middleware('auth');
