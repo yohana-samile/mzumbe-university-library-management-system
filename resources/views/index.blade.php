@@ -72,8 +72,10 @@
         @php
             use App\Models\Service;
             use App\Models\Event_and_announcement;
+            use App\Models\Opening_hour;
             $services = Service::take(4)->get()->sortByDesc('created_at');
-            $events = Event_and_announcement::take(4)->get()->sortByDesc('created_at');
+            $events = Event_and_announcement::take(6)->get()->sortByDesc('created_at');
+            $working_hours = Opening_hour::take(7)->get()->sortByDesc('created_at');
             use Illuminate\Support\Facades\DB;
         @endphp
         @if (!empty($services))
@@ -124,7 +126,7 @@
     {{-- usersummary --}}
     <div class="container bg-light my-4">
         <div class="text-center">
-            <h4>User Summary</h4>
+            <h4>Working Hours & User Summary</h4>
             <input type="range" value="Our Services">
             <div class="row" id="usersummary">
                 <div class="col-md-6">
@@ -133,26 +135,22 @@
                             <p class="card-title">Library opening hours</p>
                             <table id="tableToPrint" class="table table-striped mb-0">
                                 <tbody>
-                                    <tr>
-                                        <td><strong>Monday:</strong></td>
-                                        <td><span>09am to 03:00pm</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Monday:</strong></td>
-                                        <td><span>09am to 03:00pm</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Monday:</strong></td>
-                                        <td><span>09am to 03:00pm</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Monday:</strong></td>
-                                        <td><span>09am to 03:00pm</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Firday:</strong></td>
-                                        <td><span>09am to 03:00pm</span></td>
-                                    </tr>
+                                    @if (!empty($working_hours))
+                                        @foreach ($working_hours as $working_hour)
+                                            <tr>
+                                                <td><strong>{{$working_hour->day}}:</strong></td>
+                                                <td>
+                                                    <span>
+                                                        @if ($working_hour->holiday == 1)
+                                                            <div class="alert alert-warning">It Is Holiday</div>
+                                                        @else
+                                                            {{$working_hour->open}}am To {{$working_hour->close}}pm
+                                                        @endif
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
                                 </tbody>
                             </table>
                             <p class="card-title my-4">Current User In The Library <span class="badge badge-primary">55</span></p>

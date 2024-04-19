@@ -3,6 +3,9 @@
     use App\Http\Controllers\Book\BookController;
     use App\Http\Controllers\Service\ServiceController;
     use App\Http\Controllers\Event\Event_And_AnnouncementController;
+    use App\Http\Controllers\WorkingTime\WorkingTimeController;
+    use App\Http\Controllers\Unit\StudentUnitController;
+    use App\Http\Controllers\User\UserController;
     /*
     |--------------------------------------------------------------------------
     | Web Routes
@@ -61,4 +64,36 @@
         Route::get('events/add_event', 'add_event');
         Route::post('/events/add_event_action', 'add_event_action')->name('add_event_action');
         Route::post('/events/delete_event', 'delete_event');
+    })->middleware('auth');
+
+
+    Route::controller(WorkingTimeController::class)->group(function () {
+        Route::get('workingTime/index', 'index');
+        Route::get('workingTime/add_workingTime', 'add_workingTime');
+        Route::post('/workingTime/add_workingTime_action', 'add_workingTime_action')->name('add_workingTime_action');
+    })->middleware('auth');
+
+
+    Route::controller(StudentUnitController::class)->group(function () {
+        Route::get('units/studentUnit', 'studentUnit');
+        Route::get('units/addUnit', 'addUnit');
+        Route::post('/units/register_unit', 'register_unit')->name('register_unit');
+
+        // create_programme
+        Route::get('units/programme', 'programme');
+        Route::get('units/addProgramme', 'addProgramme');
+        Route::post('/units/register_Programme', 'register_Programme')->name('register_Programme');
+    })->middleware('auth');
+
+
+    // students & staff
+    Route::controller(UserController::class)->group(function () {
+        Route::get('users/student', 'student');
+        Route::get('users/register_student', 'register_student');
+        Route::post('/users/register_student_action', 'register_student_action')->name('register_student_action');
+
+        // staff
+        Route::get('users/staff', 'staff');
+        Route::get('users/register_staff', 'register_staff');
+        Route::post('/users/register_librarian_action', 'register_librarian_action')->name('register_librarian_action');
     })->middleware('auth');

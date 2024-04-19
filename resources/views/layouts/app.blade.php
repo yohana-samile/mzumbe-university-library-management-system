@@ -84,6 +84,28 @@
                     </div>
                 </li>
 
+                <hr class="sidebar-divider">
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    {{__("Summary")}}
+                </div>
+                <!-- Nav Item - Summary Collapse Menu -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSummary"
+                        aria-expanded="true" aria-controls="collapseSummary">
+                        <i class="fas fa-fw fa-clock"></i>
+                        <span>{{__("Summary")}}</span>
+                    </a>
+                    <div id="collapseSummary" class="collapse" aria-labelledby="headingSummary"
+                        data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">{{__("Summary:")}}</h6>
+                            <a class="collapse-item" href="{{url("workingTime/index")}}">{{__("Manage Working Hour")}}</a>
+                            <a class="collapse-item" href="">{{__("Over All User")}}</a>
+                        </div>
+                    </div>
+                </li>
+
                 <!-- Divider -->
                 <hr class="sidebar-divider">
                 <!-- Heading -->
@@ -100,8 +122,8 @@
                     <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                         <div class="bg-light py-2 collapse-inner rounded">
                             <h6 class="collapse-header">{{__("Manage User:")}}</h6>
-                            <a class="collapse-item" href="{{ url("staff")}}">{{__("Staff")}}</a>
-                            <a class="collapse-item" href="{{ url("student")}}">{{__("Students")}}</a>
+                            <a class="collapse-item" href="{{ url("users/staff")}}">{{__("Staff")}}</a>
+                            <a class="collapse-item" href="{{ url("users/student")}}">{{__("Students")}}</a>
                         </div>
                     </div>
                 </li>
@@ -124,8 +146,8 @@
                             <h6 class="collapse-header">{{__("Utilities:")}}</h6>
                             <a class="collapse-item" href="{{ url('events/index') }}">{{__("Event & Announcement")}}</a>
                             <a class="collapse-item" href="{{url("services/index")}}">{{__("Manage Services")}}</a>
-                            <a class="collapse-item" href="{{ url('utilities/form') }}">{{__("Unit")}}</a>
-                            <a class="collapse-item" href="{{ url('utilities/semester') }}">{{__("Programme")}}</a>
+                            <a class="collapse-item" href="{{ url('units/studentUnit') }}">{{__("Unit")}}</a>
+                            <a class="collapse-item" href="{{ url('units/programme') }}">{{__("Programme")}}</a>
                         </div>
                     </div>
                 </li>

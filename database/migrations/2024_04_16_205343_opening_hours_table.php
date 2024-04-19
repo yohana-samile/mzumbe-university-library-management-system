@@ -12,6 +12,7 @@
         {
             Schema::create('opening_hours', function (Blueprint $table) {
                 $table->id();
+                $table->string('day');
                 $table->time('open')->nullable();
                 $table->time('close')->nullable();
                 $table->boolean('holiday')->default(false);

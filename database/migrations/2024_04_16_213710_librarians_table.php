@@ -11,7 +11,7 @@
          */
         public function up(): void
         {
-            Schema::create('libary_librarians', function (Blueprint $table) {
+            Schema::create('librarians', function (Blueprint $table) {
                 $table->id();
                 $table->unsignedBigInteger('user_id');
                 $table->unsignedBigInteger('education_qualification_id');
@@ -30,6 +30,6 @@
          */
         public function down(): void
         {
-            Schema::dropIfExists('libary_librarians');
+            Schema::dropIfExists('librarians');
         }
     };

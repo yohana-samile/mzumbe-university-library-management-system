@@ -8,7 +8,7 @@
          * Run the database seeds.
          */
         public function run(): void {
-            DB::table('year_of_studys')->insert([
+            DB::table('year_of_studies')->insert([
                 ['name' => 'First'],
                 ['name' => 'Second'],
                 ['name' => 'Third'],

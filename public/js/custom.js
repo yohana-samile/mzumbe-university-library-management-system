@@ -300,4 +300,137 @@ $(document).ready(function () {
             }
         });
     });
+
+
+    $('#add_workingTime_action').on('submit', function (e) {
+        e.preventDefault();
+        var url = "/workingTime/add_workingTime_action";
+        var formData = new FormData(this);
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                swal.fire("success", "Working Time Scheduled Kept Successfully").then((result) =>{
+                    if (result.isConfirmed) {
+                        window.location.href = "/workingTime/index";
+                    }
+                });
+                $("#add_workingTime_action")[0].reset();
+            },
+            error: function () {
+                swal.fire("error", "something went wrong, try again");
+            }
+        });
+    });
+
+
+    // units
+    $('#register_unit').on('submit', function (e) {
+        e.preventDefault();
+        var url = "/units/register_unit";
+        var formData = new FormData(this);
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                swal.fire("success", "Unit Registered Successfully").then((result) =>{
+                    if (result.isConfirmed) {
+                        window.location.href = "/units/studentUnit";
+                    }
+                });
+                $("#register_unit")[0].reset();
+            },
+            error: function () {
+                swal.fire("error", "something went wrong, try again");
+            }
+        });
+    });
+
+    // register_Programme
+    $('#register_Programme').on('submit', function (e) {
+        e.preventDefault();
+        var url = "/units/register_Programme";
+        var formData = new FormData(this);
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                swal.fire("success", "Programme Successfully").then((result) =>{
+                    if (result.isConfirmed) {
+                        window.location.href = "/units/programme";
+                    }
+                });
+                $("#register_Programme")[0].reset();
+            },
+            error: function () {
+                swal.fire("error", "something went wrong, try again");
+            }
+        });
+    });
+
+
+    // register_student
+    $('#register_student').on('submit', function (e) {
+        e.preventDefault();
+        var url = "/users/register_student_action";
+        var formData = new FormData(this);
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                swal.fire("success", "Student Registered Successfully").then((result) =>{
+                    if (result.isConfirmed) {
+                        window.location.href = "/users/student";
+                    }
+                });
+                $("#register_student")[0].reset();
+            },
+            error: function () {
+                swal.fire("error", "something went wrong, try again");
+            }
+        });
+    });
+
+
+    // register_librarian
+    $('#register_librarian').on('submit', function (e) {
+        e.preventDefault();
+        var url = "/users/register_librarian_action";
+        var formData = new FormData(this);
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                swal.fire("success", "Librarian Registered Successfully").then((result) =>{
+                    if (result.isConfirmed) {
+                        window.location.href = "/users/staff";
+                    }
+                });
+                $("#register_librarian")[0].reset();
+            },
+            error: function () {
+                swal.fire("error", "something went wrong, try again");
+            }
+        });
+    });
 });

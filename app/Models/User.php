@@ -36,10 +36,10 @@
         protected $casts = [
             'email_verified_at' => 'datetime', 'password' => 'hashed',
         ];
-        public function librarians(){
+        public function librarian(){
             return $this->hasOne(Librarian::class);
         }
-        public function students(){
+        public function student(){
             return $this->hasOne(Student::class);
         }
         public function borrows() {
