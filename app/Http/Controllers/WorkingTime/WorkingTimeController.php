@@ -49,4 +49,13 @@
                 }
             }
         }
+
+        // over_all_users
+        public function over_all_users(){
+            $current_user_in_library = DB::table('time_entries')
+                ->whereNull('time_out')
+                ->count();
+            return view('workingTime/over_all_users', compact('current_user_in_library'));
+        }
     }
+

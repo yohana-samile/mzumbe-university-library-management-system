@@ -54,6 +54,9 @@
         <!-- Core plugin JavaScript-->
         <script src="{{ url("vendor/jquery-easing/jquery.easing.min.js")}}"></script>
 
+        {{-- for pie chart --}}
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
         {{-- jquery --}}
         <!-- Custom scripts for all pages-->
         <script src="{{ url("js/style.min.js")}}"></script>

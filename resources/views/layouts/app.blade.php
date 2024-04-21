@@ -60,29 +60,6 @@
                         <i class="fa fa-money">$</i>
                         <span>{{__("Fines")}}</span></a>
                 </li>
-                <!-- Divider -->
-                <hr class="sidebar-divider">
-                <!-- Divider -->
-                <hr class="sidebar-divider">
-                <!-- Heading -->
-                <div class="sidebar-heading">
-                    {{__("Lesson")}}
-                </div>
-                <!-- Nav Item - Pages Collapse Menu -->
-                <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLesson"
-                        aria-expanded="true" aria-controls="collapseLesson">
-                        <i class="fas fa-fw fa-file"></i>
-                        <span>Lesson</span>
-                    </a>
-                    <div id="collapseLesson" class="collapse" aria-labelledby="headingLesson" data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <h6 class="collapse-header">Lesson:</h6>
-                            <a class="collapse-item" href="buttons.html">Buttons</a>
-                            <a class="collapse-item" href="cards.html">Cards</a>
-                        </div>
-                    </div>
-                </li>
 
                 <hr class="sidebar-divider">
                 <!-- Heading -->
@@ -101,7 +78,7 @@
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">{{__("Summary:")}}</h6>
                             <a class="collapse-item" href="{{url("workingTime/index")}}">{{__("Manage Working Hour")}}</a>
-                            <a class="collapse-item" href="">{{__("Over All User")}}</a>
+                            <a class="collapse-item" href="workingTime/over_all_users">{{__("Over All User")}}</a>
                         </div>
                     </div>
                 </li>

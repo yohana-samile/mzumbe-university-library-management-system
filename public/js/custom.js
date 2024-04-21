@@ -159,7 +159,7 @@ $(document).ready(function () {
             success: function (response) {
                 swal.fire("success", "Fine Added").then((result) =>{
                     if (result.isConfirmed) {
-                        window.location.href = "view_fine";
+                        window.location.href = "/view_fine";
                     }
                 });
                 $("#add_fine_to_this_student")[0].reset();
@@ -185,7 +185,7 @@ $(document).ready(function () {
             success: function (response) {
                 swal.fire("success", "Fine Paid Successfully").then((result) =>{
                     if (result.isConfirmed) {
-                        window.location.href = "view_fine";
+                        window.location.href = "/view_fine";
                     }
                 });
                 $("#pay_my_fine")[0].reset();
@@ -302,6 +302,7 @@ $(document).ready(function () {
     });
 
 
+    // workingTime or working hours
     $('#add_workingTime_action').on('submit', function (e) {
         e.preventDefault();
         var url = "/workingTime/add_workingTime_action";
@@ -432,5 +433,75 @@ $(document).ready(function () {
                 swal.fire("error", "something went wrong, try again");
             }
         });
+    });
+
+
+    //log_me_in
+    $('#log_me_in').on('submit', function (e) {
+        e.preventDefault();
+        var url = "log_me_in";
+        var formData = new FormData(this);
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                swal.fire("success", "Login Successfully, GET OPEN ENJOY LIBRARY SERVICES").then((result) =>{
+                    if (result.isConfirmed) {
+                        window.location.href = "home";
+                    }
+                });
+                $("#log_me_in")[0].reset();
+            },
+            error: function () {
+                swal.fire("error", "Wrong Username Or Password. try again");
+            }
+        });
+    });
+});
+
+// this generate pie chart
+document.addEventListener("DOMContentLoaded", function() {
+    var ctx = document.getElementById('myPieChart').getContext('2d');
+    var myPieChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: jsonData.labels,
+            datasets: [{
+                data: jsonData.data,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(255, 206, 86, 0.8)',
+                    'rgba(75, 192, 192, 0.8)',
+                    'rgba(153, 102, 255, 0.8)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Library Usage by Unit'
+            },
+            animation: {
+                animateScale: true,
+                animateRotate: true
+            }
+        }
     });
 });

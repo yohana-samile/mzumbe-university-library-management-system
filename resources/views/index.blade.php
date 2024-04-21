@@ -35,6 +35,9 @@
                             <li class="nav-item btn btn-sm btn-light float-right">
                                 <a class="nav-link  text-dark float-right" href="{{ url('/login') }}"> {{__('Log Me In')}} </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white float-right" href="{{ url('/studentLogin') }}"> {{__('student LogIn')}} </a>
+                            </li>
                         @endif
                     @endguest
                 </ul>
@@ -77,6 +80,31 @@
             $events = Event_and_announcement::take(6)->get()->sortByDesc('created_at');
             $working_hours = Opening_hour::take(7)->get()->sortByDesc('created_at');
             use Illuminate\Support\Facades\DB;
+            $current_user_in_library = DB::table('time_entries')
+                ->whereNull('time_out')
+                ->count();
+            // trends
+            use Carbon\Carbon;
+            // for pie chart
+            $data = [
+                'labels' => [],
+                'data' => [],
+            ];
+
+            $queryResult = DB::select("
+                SELECT units.unit_abbreviation AS unit_name, COUNT(time_entries.id) AS usage_count
+                FROM time_entries
+                JOIN users ON time_entries.user_id = users.id
+                JOIN students ON users.id = students.user_id
+                JOIN programmes ON students.programme_id = programmes.id
+                JOIN units ON programmes.unit_id = units.id
+                GROUP BY units.unit_abbreviation
+            ");
+
+            foreach ($queryResult as $result) {
+                $data['labels'][] = $result->unit_name;
+                $data['data'][] = $result->usage_count;
+            }
         @endphp
         @if (!empty($services))
             @foreach ($services as $service)
@@ -153,7 +181,7 @@
                                     @endif
                                 </tbody>
                             </table>
-                            <p class="card-title my-4">Current User In The Library <span class="badge badge-primary">55</span></p>
+                            <p class="card-title my-4">Current User In The Library <span class="badge badge-primary">{{$current_user_in_library}}</span></p>
                         </div>
                     </div>
                 </div>
@@ -163,42 +191,48 @@
                         <div class="card-body">
                           <p class="card-title">Overall Users</p>
                           <table id="tableToPrint" class="table table-striped mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Day</th>
+                                    <th>Count Users</th>
+                                </tr>
+                            </thead>
                             <tbody>
-                                <tr>
-                                    <td><strong>Monday:</strong></td>
-                                    <td><span>33</span></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Monday:</strong></td>
-                                    <td><span>45</span></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Monday:</strong></td>
-                                    <td><span>66</span></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Monday:</strong></td>
-                                    <td><span>65</span></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Firday:</strong></td>
-                                    <td><span>12</span></td>
-                                </tr>
+                                @php
+                                    $daysOfWeek = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+                                @endphp
+                                @foreach ($daysOfWeek as $day)
+                                    @php
+                                        // Get the count for the current day
+                                        $query = DB::table('time_entries')
+                                            ->select(DB::raw('COUNT(time_in) as count'))
+                                            ->whereRaw("DAYNAME(time_in) = '$day'")
+                                            ->first();
+                                        $count = $query ? $query->count : 0;
+                                    @endphp
+                                    <tr>
+                                        <td><strong>{{ $day }}:</strong></td>
+                                        <td>{{ $count }}</td>
+                                    </tr>
+                                @endforeach
                             </tbody>
-                          </table>
-                          <p class="card-title my-4">Current User In The Library <span class="badge badge-primary">55</span></p>
+                        </table>
+
+                          <p class="card-title my-4">Current User In The Library <span class="badge badge-primary">{{$current_user_in_library}}</span></p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="card mb-3" style="max-width: 100%">
-            <div class="card-body">
-              <p class="card-title">Pie Chart Show Usage Of Library</p>
-              <img src="{{url('img/cover/64a8d6019c1edf566bc4f719_V2_1675967577563_18c10042-3799-4d69-b285-abb6ad68ba3d.png')}}" alt="pie chart" width="100%" height="500px">
-            </div>
+        <div class="card mb-3" style="max-width: 100%; height: 500px;">
+            <p class="card-title">Pie Chart Show Usage Of Library By Unit</p>
+            <div class="card-body mx-auto">
+                <canvas id="myPieChart" width="400" height="400"></canvas>
+                {{-- <img src="{{url('img/cover/64a8d6019c1edf566bc4f719_V2_1675967577563_18c10042-3799-4d69-b285-abb6ad68ba3d.png')}}" alt="pie chart" width="100%" height="500px"> --}}
+            </div><br>
         </div>
     </div>
+
     {{-- footer --}}
     <div class="card">
     </div>
@@ -226,3 +260,7 @@
             <a class="text-body text-decoration-none" href="https://site.mzumbe.ac.tz/">Mzumbe University Library Management System</a>
         </div>
     </footer>
+    <script>
+        var jsonData = @json($data);
+    </script>
+    @extends('includes.footer')

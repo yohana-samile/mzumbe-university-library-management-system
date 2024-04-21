@@ -6,6 +6,7 @@
     use App\Http\Controllers\WorkingTime\WorkingTimeController;
     use App\Http\Controllers\Unit\StudentUnitController;
     use App\Http\Controllers\User\UserController;
+    use App\Http\Controllers\Auth\UserLoginController;
     /*
     |--------------------------------------------------------------------------
     | Web Routes
@@ -20,6 +21,11 @@
     Route::get('/', function () {
         return view('index');
     });
+    Route::controller(UserLoginController::class)->group(function () {
+        Route::get('studentLogin', 'studentLogin')->name('studentLogin');
+        Route::post('log_me_in', 'log_me_in')->name('log_me_in');
+    });
+
 
     Auth::routes();
 
@@ -67,10 +73,13 @@
     })->middleware('auth');
 
 
+    // WorkingTimeController and users
     Route::controller(WorkingTimeController::class)->group(function () {
         Route::get('workingTime/index', 'index');
         Route::get('workingTime/add_workingTime', 'add_workingTime');
         Route::post('/workingTime/add_workingTime_action', 'add_workingTime_action')->name('add_workingTime_action');
+
+        Route::get('workingTime/over_all_users', 'over_all_users');
     })->middleware('auth');
 
 
