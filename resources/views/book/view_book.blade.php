@@ -34,13 +34,15 @@
                         </tr>
                     </tbody>
                 </table>
-                <form id="borrow_this_book">
-                    @csrf
-                    <input type="hidden" name="book_id" value="{{$book->id}}" id="book_id">
-                    <input type="hidden" name="user_id" value="{{$user}}" id="user_id">
-                    <input type="hidden" name="toBeReturnedOn" id="toBeReturnedOn">
-                    <input type="submit" class="btn btn-primary float-right my-4" value="Borrow This Book">
-                </form>
+                @if ($userRole->role_name === 'is_student')
+                    <form id="borrow_this_book">
+                        @csrf
+                        <input type="hidden" name="book_id" value="{{$book->id}}" id="book_id">
+                        <input type="hidden" name="user_id" value="{{$user}}" id="user_id">
+                        <input type="hidden" name="toBeReturnedOn" id="toBeReturnedOn">
+                        <input type="submit" class="btn btn-primary float-right my-4" value="Borrow This Book">
+                    </form>
+                @endif
             </div>
         </div>
     </div>

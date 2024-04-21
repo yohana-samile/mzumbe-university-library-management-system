@@ -8,9 +8,11 @@
                     <div class="col-md-6">
                         <h6 class="m-0 font-weight-bold text-primary">Books Available</h6>
                     </div>
-                    <div class="col-md-6">
-                        <a href="{{url('book/register_book')}}" class="btn btn-primary btn-sm float-right">Register Book<i class="fa fa-plus"></i></a>
-                    </div>
+                    @if ($userRole->role_name !== 'is_student')
+                        <div class="col-md-6">
+                            <a href="{{url('book/register_book')}}" class="btn btn-primary btn-sm float-right">Register Book<i class="fa fa-plus"></i></a>
+                        </div>
+                    @endif
                 </div>
             </div>
             <div class="card-body">
@@ -52,22 +54,35 @@
                                         <td>{{ $book->name }}</td>
                                         <td>{{ $book->total_copies }}</td>
                                         <td>
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <a href="{{url('book/view_book', [$book->id])}}">
-                                                        <i class="fa fa-eye text-primary"></i>
-                                                    </a>
+                                            {{-- for student see borrow btn --}}
+                                            @if ($userRole->role_name === 'is_student')
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <a href="{{url('book/view_book', [$book->id])}}">
+                                                            <i class="fa fa-eye text-primary"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <a href="{{url('book/view_book', [$book->id])}}" class="btn btn-sm btn-success"> Borrow </a>
+                                                    </div>
                                                 </div>
-                                                {{-- for student see borrow btn --}}
-                                                <div class="col-md-4">
-                                                    <a href="{{url('book/edit_book', [$book->id])}}">
-                                                        <i class="fa fa-edit text-success"></i>
-                                                    </a>
+                                            @else
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <a href="{{url('book/view_book', [$book->id])}}">
+                                                            <i class="fa fa-eye text-primary"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <a href="{{url('book/edit_book', [$book->id])}}">
+                                                            <i class="fa fa-edit text-success"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <i class="fa fa-trash text-danger"></i>
+                                                    </div>
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <i class="fa fa-trash text-danger"></i>
-                                                </div>
-                                            </div>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

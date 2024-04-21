@@ -45,7 +45,8 @@
                                     <tr>
                                         <td>{{ $index++ }}</td>
                                         <td>{{ $programme->name }}</td>
-                                        <td>{{ $programme->programme_abbreviation }}</td>
+                                        <td class="text-uppercase">{{ $programme->programme_abbreviation }}</td>
+                                        <td>{{ $programme->unit_abbreviation }}</td>
                                         <td>{{ $programme->created_at }}</td>
                                         <td>
                                             <div class="row">

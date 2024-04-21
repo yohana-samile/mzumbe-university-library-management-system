@@ -4,7 +4,9 @@
     use App\Models\Role;
     use Illuminate\Support\Facades\DB;
     $userId = Auth::user()->id;
-    $userRole = User::with('roles')->find($userId);
+    $userRole = DB::select("SELECT roles.name as role_name, users.id from roles, users where users.role_id = roles.id and users.id = '$userId' ");
+    // $userRole = User::with('roles')->find($userId);
+    $userRole = $userRole[0];
 @endphp
 @if (Auth::user())
     <div id="wrapper">
@@ -42,17 +44,39 @@
                 <div id="collapseBook" class="collapse" aria-labelledby="headingBook" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">{{__("Books:")}}</h6>
-                        {{-- @if ($userRole->name != 'is_student') --}}
-                        {{-- @endif --}}
                         <a class="collapse-item" href="{{ url('book/index')}}">{{__('Books')}}</a>
                         <a class="collapse-item" href="{{ url('book/genre')}}">{{__('Genres')}}</a>
-                        <a class="collapse-item" href="{{ url('book/book_issued')}}">{{__('Book Issued')}}</a>
+                        @if ($userRole->role_name !== 'is_student')
+                            <a class="collapse-item" href="{{ url('book/book_issued')}}">{{__('Book Issued')}}</a>
+                        @endif
                     </div>
                 </div>
             </li>
 
-            {{-- @if ($user->roles->where('name', '!=', 'is_student')->isNotEmpty()) --}}
-            @if ($userRole->name != 'is_student')
+            <!-- Nav Item - Summary Collapse Menu -->
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">
+                {{__("Summary")}}
+            </div>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSummary"
+                    aria-expanded="true" aria-controls="collapseSummary">
+                    <i class="fas fa-fw fa-clock"></i>
+                    <span>{{__("Summary")}}</span>
+                </a>
+                <div id="collapseSummary" class="collapse" aria-labelledby="headingSummary"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">{{__("Summary:")}}</h6>
+                        @if ($userRole->role_name !== 'is_student')
+                            <a class="collapse-item" href="{{url("/workingTime/index")}}">{{__("Manage Working Hour")}}</a>
+                        @endif
+                        <a class="collapse-item" href="/workingTime/over_all_users">{{__("Over All User")}}</a>
+                    </div>
+                </div>
+            </li>
+
+            @if ($userRole->role_name !== 'is_student')
                 <!-- Divider -->
                 <hr class="sidebar-divider">
                 <li class="nav-item">
@@ -60,31 +84,9 @@
                         <i class="fa fa-money">$</i>
                         <span>{{__("Fines")}}</span></a>
                 </li>
-
-                <hr class="sidebar-divider">
-                <!-- Heading -->
-                <div class="sidebar-heading">
-                    {{__("Summary")}}
-                </div>
-                <!-- Nav Item - Summary Collapse Menu -->
-                <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSummary"
-                        aria-expanded="true" aria-controls="collapseSummary">
-                        <i class="fas fa-fw fa-clock"></i>
-                        <span>{{__("Summary")}}</span>
-                    </a>
-                    <div id="collapseSummary" class="collapse" aria-labelledby="headingSummary"
-                        data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <h6 class="collapse-header">{{__("Summary:")}}</h6>
-                            <a class="collapse-item" href="{{url("workingTime/index")}}">{{__("Manage Working Hour")}}</a>
-                            <a class="collapse-item" href="workingTime/over_all_users">{{__("Over All User")}}</a>
-                        </div>
-                    </div>
-                </li>
-
                 <!-- Divider -->
                 <hr class="sidebar-divider">
+
                 <!-- Heading -->
                 <div class="sidebar-heading">
                     {{__("Users")}}

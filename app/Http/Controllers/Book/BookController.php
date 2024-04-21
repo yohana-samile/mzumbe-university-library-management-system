@@ -17,9 +17,12 @@
         // books
         public function index(){
             $books = DB::select('SELECT genres.name, books.id, books.book_title, books.edication, books.isbn, books.publication_date, books.total_copies FROM genres, books WHERE books.genre_id = genres.id ');
-            // $books = Book::with('genres')->get();
+            $userId = Auth::user()->id;
+            $userRole = DB::select("SELECT roles.name as role_name, users.id from roles, users where users.role_id = roles.id and users.id = '$userId' ");
+            $userRole = $userRole[0];
             return view('book/index', [
                 'books' => $books,
+                'userRole' => $userRole,
             ]);
         }
         public function register_book(){
@@ -63,7 +66,13 @@
         // Genre
         public function genre(){
             $genres = Genre::get();
-            return view('book/genre', compact('genres'));
+            $userId = Auth::user()->id;
+            $userRole = DB::select("SELECT roles.name as role_name, users.id from roles, users where users.role_id = roles.id and users.id = '$userId' ");
+            $userRole = $userRole[0];
+            return view('book/genre', [
+                'genres' => $genres,
+                'userRole' => $userRole
+            ]);
         }
 
         public function register_book_genre(){
@@ -88,9 +97,13 @@
         public function view_book($id){
             $user = Auth::user()->id;
             $book = Book::with('genres')->find($id);
+            $userId = Auth::user()->id;
+            $userRole = DB::select("SELECT roles.name as role_name, users.id from roles, users where users.role_id = roles.id and users.id = '$userId' ");
+            $userRole = $userRole[0];
             return view('book/view_book', [
                 'user' => $user,
-                'book' => $book
+                'book' => $book,
+                'userRole' => $userRole
             ]);
         }
         // edit_book

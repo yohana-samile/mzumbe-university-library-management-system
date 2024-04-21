@@ -34,7 +34,7 @@
 
         // programme
         public function programme(){
-            $programmes = Programme::get();
+            $programmes = DB::select("select programmes.created_at, programmes.name, programmes.programme_abbreviation, units.unit_abbreviation from units, programmes where programmes.unit_id = units.id");
             return view('units/programme', compact('programmes'));
         }
 

@@ -8,9 +8,11 @@
                     <div class="col-md-6">
                         <h6 class="m-0 font-weight-bold text-primary">Books Genre</h6>
                     </div>
-                    <div class="col-md-6">
-                        <a href="{{url('book/register_book_genre')}}" class="btn btn-primary btn-sm float-right">Register Book Genre<i class="fa fa-plus"></i></a>
-                    </div>
+                    @if ($userRole->role_name !== 'is_student')
+                        <div class="col-md-6">
+                            <a href="{{url('book/register_book_genre')}}" class="btn btn-primary btn-sm float-right">Register Book Genre<i class="fa fa-plus"></i></a>
+                        </div>
+                    @endif
                 </div>
             </div>
             <div class="card-body">
@@ -21,7 +23,9 @@
                                 <th>S/N</th>
                                 <th>Genre Name</th>
                                 <th>Registered At</th>
-                                <th>Action</th>
+                                @if ($userRole->role_name !== 'is_student')
+                                    <th>Action</th>
+                                @endif
                             </tr>
                         </thead>
                         <tfoot>
@@ -29,7 +33,9 @@
                                 <th>S/N</th>
                                 <th>Genre Name</th>
                                 <th>Registered At</th>
-                                <th>Action</th>
+                                @if ($userRole->role_name !== 'is_student')
+                                    <th>Action</th>
+                                @endif
                             </tr>
                         </tfoot>
                         <tbody>
@@ -42,16 +48,18 @@
                                         <td>{{ $index++ }}</td>
                                         <td>{{ $genre->name }}</td>
                                         <td>{{ $genre->created_at }}</td>
-                                        <td>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <i class="fa fa-edit text-success"></i>
+                                        @if ($userRole->role_name !== 'is_student')
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <i class="fa fa-edit text-success"></i>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <i class="fa fa-trash text-danger"></i>
+                                                    </div>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <i class="fa fa-trash text-danger"></i>
-                                                </div>
-                                            </div>
-                                        </td>
+                                            </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             @endif
