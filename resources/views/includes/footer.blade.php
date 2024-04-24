@@ -1,7 +1,7 @@
 
-                    <footer class="sticky-footer bg-light">
+                    <footer class="sticky-footer bg-light" hidden>
                         <div class="container my-auto">
-                            <div class="copyright text-center my-auto">
+                            <div class="copyright text-center my-auto" hidden>
                                 <span>Developed By <a href="https://github.com/yohana-samile" target="_blank">Developer Samile</a></span>
                             </div>
                         </div>
@@ -20,6 +20,7 @@
                 </a>
 
                 <!-- Logout Modal-->
+                {{-- if is student --}}
                 <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -32,14 +33,10 @@
                     <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                        <a class="btn btn-primary" href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                                            document.getElementById('logout-form').submit();">
-                            {{ __('Logout') }}
-                        </a>
-
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        <form id="log_me_out">
                             @csrf
+                            <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                            <input type="submit" class="btn btn-primary" name="submit" value=" {{ __('Logout') }}">
                         </form>
                     </div>
                 </div>

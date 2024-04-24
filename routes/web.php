@@ -24,11 +24,11 @@
     Route::controller(UserLoginController::class)->group(function () {
         Route::get('studentLogin', 'studentLogin')->name('studentLogin');
         Route::post('log_me_in', 'log_me_in')->name('log_me_in');
+        Route::post('log_me_out', 'log_me_out')->name('log_me_out');
     });
 
 
     Auth::routes();
-
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
     Route::controller(BookController::class)->group(function () {

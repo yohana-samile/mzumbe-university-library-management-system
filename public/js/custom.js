@@ -461,7 +461,35 @@ $(document).ready(function () {
             }
         });
     });
-});
+
+
+    // log_me_out
+    $('#log_me_out').on('submit', function (e) {
+        e.preventDefault();
+        var url = "log_me_out";
+        var formData = new FormData(this);
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                window.location.href = "/login";
+                $("#log_me_out")[0].reset();
+            },
+            error: function(xhr, status, error) {
+            console.log("XHR status: " + status);
+            console.log("Error message: " + error);
+            console.log("Server response: " + xhr.responseText);
+            }
+            // error: function () {
+            //     swal.fire("error", "Error In Logout. try again");
+            // }
+        });
+    });
+}); //end of our project developed by developer samile 0620350083
 
 // this generate pie chart
 document.addEventListener("DOMContentLoaded", function() {

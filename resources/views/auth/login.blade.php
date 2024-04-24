@@ -73,7 +73,6 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    {{-- <div class="form-group"> --}}
                     <input type="submit" name="submit" value="Login" class="form-control bg-primary text-white">
                 </div>
 
