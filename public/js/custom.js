@@ -479,14 +479,9 @@ $(document).ready(function () {
                 window.location.href = "/login";
                 $("#log_me_out")[0].reset();
             },
-            error: function(xhr, status, error) {
-            console.log("XHR status: " + status);
-            console.log("Error message: " + error);
-            console.log("Server response: " + xhr.responseText);
+            error: function () {
+                swal.fire("error", "Error In Logout. try again");
             }
-            // error: function () {
-            //     swal.fire("error", "Error In Logout. try again");
-            // }
         });
     });
 }); //end of our project developed by developer samile 0620350083

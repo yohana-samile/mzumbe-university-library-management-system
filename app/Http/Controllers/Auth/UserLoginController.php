@@ -60,15 +60,20 @@
             $time_entry_data = $request->validate([
                 'user_id' => 'required'
             ]);
-            $time_entry_data = Time_entry::findOrFail($request->input('user_id'));
-            $time_entry_data->update(['time_out' => Carbon::now()]);
-            if ($time_entry_data) {
+            $timeEntry = Time_entry::where('user_id', $request->input('user_id'))
+                ->whereNull('time_out')
+                ->first();
+            if ($timeEntry) {
+                $timeEntryId = $timeEntry->id; // this ln not work hahhah
+                $timeEntry->update(['time_out' => Carbon::now()]);
                 $request->session()->flash('id', $request->input('user_id'));
                 Auth::logout();
-                return response()->json("success");
+                // return response()->json("success");
+                return view('/index');
             }
             else{
-                return response()->json("success");
+                // return view('/login');
+                return response()->json("error");
             }
         }
     }

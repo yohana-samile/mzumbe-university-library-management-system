@@ -33,7 +33,8 @@
                     <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                        <form id="log_me_out">
+                        {{-- <form id="log_me_out"> --}}
+                        <form action="{{ url('/log_me_out') }}" method="POST">
                             @csrf
                             <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                             <input type="submit" class="btn btn-primary" name="submit" value=" {{ __('Logout') }}">
@@ -44,7 +45,7 @@
         </div>
 
         <!-- Bootstrap core JavaScript-->
-        {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="{{ url("vendor/jquery/jquery.min.js")}}"></script>
         <script src="{{ url("vendor/bootstrap/js/bootstrap.bundle.min.js")}}"></script>
 

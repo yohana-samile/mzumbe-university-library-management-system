@@ -72,29 +72,15 @@
                                         <td>{{ $borrower->created_at }}</td>
                                         <td>
                                             <div class="row">
-                                                @if ($userRole->role_name !== 'is_student')
-                                                    <div class="col-md-3">
-                                                        @if ($borrower->borrow_status == 'pending')
-                                                            <a href="{{url('book/borrow_info', [$borrower->borrow_id])}}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="View Fine">
-                                                                <i class="fa fa-eye text-primary"></i>
-                                                            </a>
-                                                        @endif
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        @if ($borrower->borrow_status == 'pending' || $borrower->borrow_status == 'denied')
-                                                            <form action="{{url('/book/approval_book_borrowed', ['id' => $borrower->borrow_id ])}}" method="post">
+                                                @if ($userRole->role_name === 'is_student')
+                                                    @if ($borrower->borrow_status == 'approved')
+                                                        @if ($borrower->return_status != 'not approval' && $borrower->return_status != 'returned')
+                                                            <form action="{{ url('/book/return_this_book', ['id' => $borrower->borrow_id ])}}" method="post">
                                                                 @csrf
-                                                                <input type="submit" class="btn btn-success btn-sm float-right my-4" value="give book">
+                                                                <input type="submit" class="btn btn-success btn-sm float-right my-4" value="return">
                                                             </form>
-                                                        @elseif ($borrower->return_status == 'not approval')
-                                                            <div class="col-md-8">
-                                                                <form action="{{ url('/book/aproval_return_book', ['id' => $borrower->borrow_id ])}}" method="post">
-                                                                    @csrf
-                                                                    <input type="submit" class="btn btn-success btn-sm float-right my-4" value="approval return">
-                                                                </form>
-                                                            </div>
                                                         @endif
-                                                    </div>
+                                                    @endif
                                                 @endif
                                             </div>
                                         </td>

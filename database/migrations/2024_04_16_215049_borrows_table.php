@@ -8,14 +8,15 @@
         /**
          * Run the migrations.
          */
-        public function up(): void
-        {
+        public function up(): void {
             Schema::create('borrows', function (Blueprint $table) {
                 $table->id();
                 $table->boolean('returned')->default(false);
                 $table->date('toBeReturnedOn');
                 $table->unsignedBigInteger('book_id');
                 $table->unsignedBigInteger('user_id');
+                $table->string('borrow_status')->default('pending');
+                $table->string('return_status')->default('not return');
                 $table->timestamps();
                 $table->foreign('book_id')->references('id')->on('books');
                 $table->foreign('user_id')->references('id')->on('users');

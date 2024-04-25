@@ -106,6 +106,7 @@
                 'userRole' => $userRole
             ]);
         }
+
         // edit_book
         public function edit_book($id){
             $book = Book::with('genres')->find($id);
@@ -142,7 +143,12 @@
                 'user_id' => 'required',
                 'toBeReturnedOn' => 'required'
             ]);
-            $borrow = Borrow::create($validateData);
+            $borrow = Borrow::create([
+                'book_id'=>$validateData['book_id'],
+                'user_id'=>$validateData['user_id'],
+                'toBeReturnedOn'=>$validateData['toBeReturnedOn'],
+                'borrow_status'=>'pending'
+            ]);
             if ($borrow) {
                 return response()->json('success');
             }
@@ -151,24 +157,71 @@
             }
         }
 
+        // aproval borrow book
+        public function approval_book_borrowed(Request $request, $id){
+            // $borrowId = Borrow::findOrFail($id);
+            $borrowId = Borrow::where('id', $id)->first();
+            if ($borrowId) {
+                $borrowId->update(['borrow_status' => 'approved']);
+                $request->session()->flash('success', 'Book borrow approved successfully.');
+                return redirect()->back();
+            }
+            else{
+                $request->session()->flash('error', 'Something wend wrong, try again');
+                return redirect()->back();
+            }
+        }
+
         // book_issued
         public function book_issued(){
-            $borrowers = DB::select("SELECT genres.name as genre_name, books.id, books.book_title, books.edication, books.isbn, books.publication_date, books.total_copies, users.name as user_name, borrows.returned, borrows.toBeReturnedOn, borrows.created_at, borrows.id as borrow_id FROM genres, books, users, borrows WHERE books.genre_id = genres.id AND borrows.user_id = users.id AND borrows.book_id = books.id ");
-            return view('book/book_issued', compact('borrowers'));
+            $borrowers = DB::select("SELECT books.id, books.book_title, books.edication, books.isbn, books.publication_date, books.total_copies, users.name as user_name, borrows.returned, borrows.toBeReturnedOn, borrows.created_at, borrows.id as borrow_id, borrows.borrow_status, borrows.return_status FROM books, users, borrows WHERE borrows.user_id = users.id AND borrows.book_id = books.id ");
+            $userId = Auth::user()->id;
+            $userRole = DB::select("SELECT roles.name as role_name, users.id from roles, users where users.role_id = roles.id and users.id = '$userId' ");
+            // $userRole = User::with('roles')->find($userId);
+            $userRole = $userRole[0];
+            return view('book/book_issued', [
+                'userRole' => $userRole,
+                'borrowers' => $borrowers
+            ]);
+        }
+
+        // for student only
+        public function my_book_issued(){
+            $userId = Auth::user()->id;
+            $borrowers = DB::select("SELECT books.id, books.book_title, books.edication, books.isbn, books.publication_date, books.total_copies, users.name as user_name, borrows.returned, borrows.toBeReturnedOn, borrows.created_at, borrows.id as borrow_id, borrows.borrow_status, borrows.return_status FROM books, users, borrows WHERE borrows.user_id = users.id AND borrows.book_id = books.id AND borrows.user_id = '$userId' ");
+            $userRole = DB::select("SELECT roles.name as role_name, users.id from roles, users where users.role_id = roles.id and users.id = '$userId' ");
+            $userRole = $userRole[0];
+            return view('book/my_book_issued', [
+                'userRole' => $userRole,
+                'borrowers' => $borrowers
+            ]);
         }
 
         // return_this_book
-        public function return_this_book(Request $request){
-            $validateData = $request->validate([
-                'id' => 'required',
-            ]);
-            $id = $request->input('id');
-            if ($id) {
-                DB::update("UPDATE `borrows` SET `returned` = '1' WHERE `borrows`.`id` = '$id'  ");
-                return response()->json('success');
+        public function return_this_book(Request $request, $id){
+            $borrowId = Borrow::findOrFail($id);
+            if ($borrowId) {
+                $borrowId->update(['return_status' => 'not approval']);
+                $request->session()->flash('success', 'Book returned, wait for approval.');
+                return redirect()->back();
             }
             else{
-                return response()->json('error');
+                $request->session()->flash('error', 'Something wend wrong, try again');
+                return redirect()->back();
+            }
+        }
+
+        // aproval return book
+        public function aproval_return_book(Request $request, $id){
+            $borrowId = Borrow::findOrFail($id);
+            if ($borrowId) {
+                $borrowId->update(['return_status' => 'returned']);
+                $request->session()->flash('success', 'Book returned successfully.');
+                return redirect()->back();
+            }
+            else{
+                $request->session()->flash('error', 'Something wend wrong, try again');
+                return redirect()->back();
             }
         }
 

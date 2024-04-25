@@ -5,7 +5,7 @@
     $current_user_in_library = DB::table('time_entries')
         ->whereNull('time_out')
         ->count();
-    $unreturned_books = DB::table('borrows')->where('returned', 0)->count();
+    $unreturned_books = DB::table('borrows')->where('return_status', 'not return')->count();
     $fine_collected = DB::select("SELECT SUM(amount) AS total_fine FROM fines")[0]->total_fine;
     $users_registered = DB::table('users')->count();
     $books_available = DB::table('books')->count();

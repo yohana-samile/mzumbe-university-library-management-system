@@ -46,7 +46,9 @@
                         <h6 class="collapse-header">{{__("Books:")}}</h6>
                         <a class="collapse-item" href="{{ url('book/index')}}">{{__('Books')}}</a>
                         <a class="collapse-item" href="{{ url('book/genre')}}">{{__('Genres')}}</a>
-                        @if ($userRole->role_name !== 'is_student')
+                        @if ($userRole->role_name === 'is_student')
+                            <a class="collapse-item" href="{{ url('book/my_book_issued')}}">{{__('Book Issued')}}</a>
+                        @elseif ($userRole->role_name !== 'is_student')
                             <a class="collapse-item" href="{{ url('book/book_issued')}}">{{__('Book Issued')}}</a>
                         @endif
                     </div>

@@ -49,35 +49,28 @@
 
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ms-auto">
-                    @guest
-                        @if (Route::has('login'))
-                            <li class="nav-item">
-                                <a class="nav-link text-white" href="arms.mzumbe.ac.tz">{{ __('MU-ARMS') }}</a>
-                            </li>
-                        @endif
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="arms.mzumbe.ac.tz">{{ __('MU-ARMS') }}</a>
+                    </li>
 
-                        @if (Route::has('login'))
-                            <li class="nav-item">
-                                <a class="nav-link text-white" href="admission.mzumbe.ac.tz">{{ __('Admission') }}</a>
-                            </li>
-                        @endif
-                        @if (Route::has('login'))
-                            <li class="nav-item">
-                                <a class="nav-link text-white" href="#usersummary">{{ __('TimeTable') }}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-white" href="learning.mzumbe.ac.tz">{{ __('E-learning') }}</a>
-                            </li>
-                        @endif
-                        @if (Route::has('login'))
-                            <li class="nav-item btn btn-sm btn-light float-right">
-                                <a class="nav-link  text-dark float-right" href="{{ url('/login') }}"> {{__('Log Me In')}} </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-white float-right" href="{{ url('/studentLogin') }}"> {{__('In The Library')}} </a>
-                            </li>
-                        @endif
-                    @endguest
+
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="admission.mzumbe.ac.tz">{{ __('Admission') }}</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="#usersummary">{{ __('TimeTable') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="learning.mzumbe.ac.tz">{{ __('E-learning') }}</a>
+                    </li>
+
+                    <li class="nav-item btn btn-sm btn-light float-right">
+                        <a class="nav-link  text-dark float-right" href="{{ url('/login') }}"> {{__('Log Me In')}} </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white float-right" href="{{ url('/studentLogin') }}"> {{__('In The Library')}} </a>
+                    </li>
                 </ul>
             </div>
         </div>

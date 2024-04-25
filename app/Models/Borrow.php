@@ -7,7 +7,7 @@
     {
         use HasFactory;
         protected $fillable = [
-            'user_id', 'book_id', 'toBeReturnedOn'
+            'user_id', 'book_id', 'toBeReturnedOn', 'borrow_status', 'return_status'
         ];
         public function users() {
             return $this->belongsTo(User::class);

@@ -36,10 +36,12 @@
         Route::get('book/register_book', 'register_book');
         Route::post('/book/register_book_action', 'register_book_action')->name('register_book_action');
 
+        // ganre or categories
         Route::get('book/genre', 'genre');
         Route::get('book/register_book_genre', 'register_book_genre');
         Route::post('/book/register_book_genre_action', 'register_book_genre_action')->name('register_book_genre_action');
 
+        // edit books
         Route::get('book/view_book/{id}', 'view_book');
         Route::get('book/edit_book/{id}', 'edit_book');
         Route::post('book/update_book_detail', 'update_book_detail');
@@ -48,12 +50,21 @@
         Route::post('book/borrow_this_book', 'borrow_this_book');
         Route::get('book/book_issued', 'book_issued');
         Route::get('book/borrow_info/{id}', 'borrow_info');
+        // approval_book_borrowed
+        Route::post('book/approval_book_borrowed/{id}', 'approval_book_borrowed')->name('book/approval_book_borrowed');
+
         // return_this_book
-        Route::post('book/return_this_book', 'return_this_book');
+        Route::post('book/return_this_book/{id}', 'return_this_book');
+        Route::post('book/aproval_return_book/{id}', 'aproval_return_book');
+
         // fine
         Route::get('view_fine', 'view_fine');
         Route::post('book/view_fine_action', 'view_fine_action'); //add fine
         Route::post('pay_my_fine', 'pay_my_fine');
+
+        // for student onyl get_only_my_book_issuded
+        Route::get('book/my_book_issued', 'my_book_issued');
+
     })->middleware('auth');
 
 
