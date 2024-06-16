@@ -6,7 +6,7 @@
     class Fine extends Model {
         use HasFactory;
         protected $fillable = [
-            'borrow_id', 'amount'
+            'borrow_id', 'amount', 'paid'
         ];
         public function borrows() {
             return $this->belongsTo(Borrow::class);

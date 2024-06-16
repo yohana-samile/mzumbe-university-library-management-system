@@ -7,6 +7,7 @@
     use App\Http\Controllers\Unit\StudentUnitController;
     use App\Http\Controllers\User\UserController;
     use App\Http\Controllers\Auth\UserLoginController;
+    use App\Http\Controllers\ReportController;
     /*
     |--------------------------------------------------------------------------
     | Web Routes
@@ -35,16 +36,16 @@
         Route::get('book/index', 'index');
         Route::get('book/register_book', 'register_book');
         Route::post('/book/register_book_action', 'register_book_action')->name('register_book_action');
+        // edit books
+        Route::get('book/view_book/{id}', 'view_book');
+        Route::get('book/edit_book/{id}', 'edit_book');
+        Route::post('book/update_book_detail', 'update_book_detail');
+        Route::post('/book/delete_book/{book}', 'destory')->name('delete_book');
 
         // ganre or categories
         Route::get('book/genre', 'genre');
         Route::get('book/register_book_genre', 'register_book_genre');
         Route::post('/book/register_book_genre_action', 'register_book_genre_action')->name('register_book_genre_action');
-
-        // edit books
-        Route::get('book/view_book/{id}', 'view_book');
-        Route::get('book/edit_book/{id}', 'edit_book');
-        Route::post('book/update_book_detail', 'update_book_detail');
 
         // borrow
         Route::post('book/borrow_this_book', 'borrow_this_book');
@@ -116,4 +117,10 @@
         Route::get('users/staff', 'staff');
         Route::get('users/register_staff', 'register_staff');
         Route::post('/users/register_librarian_action', 'register_librarian_action')->name('register_librarian_action');
+    })->middleware('auth');
+
+    // report
+    Route::controller(ReportController::class)->group(function () {
+        Route::get('/reports/generate', 'generateReport');
+        Route::get('/download-report', 'downloadReport')->name('download.report');
     })->middleware('auth');

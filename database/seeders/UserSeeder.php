@@ -12,11 +12,11 @@
         public function run(): void
         {
             DB::table('users')->insert([
-                'name' => 'Developer Samile',
+                'name' => 'Mtui Stanley',
                 'gender' => 'male',
                 'physical_address' => 'p.o.box 1 mzumbe',
                 'phone_number' => '0620350083',
-                'email' => 'yohanasamile@gmail.com',
+                'email' => 'mtuistanley@gmail.com',
                 'role_id' => 1,
                 'password' => Hash::make('12345678'),
             ]);

@@ -18,7 +18,7 @@
                 $table->unsignedBigInteger('programme_id');
                 $table->unsignedBigInteger('user_id');
                 $table->timestamps();
-                $table->foreign('year_of_study_id')->references('id')->on('year_of_studys');
+                $table->foreign('year_of_study_id')->references('id')->on('year_of_studies');
                 $table->foreign('user_id')->references('id')->on('users');
             });
         }

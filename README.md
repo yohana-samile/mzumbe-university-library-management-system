@@ -10,22 +10,23 @@ php artisan key:generate
 
 php artisan migrate
 
-php artisan db:seed --class=Education_qualification
+php artisan db:seed --class=Education_qualification;
+php artisan db:seed --class=Genre;
+php artisan db:seed --class=Libary_depertment;
+php artisan db:seed --class=Position;
+php artisan db:seed --class=Year_of_study;
 
-php artisan db:seed --class=Genre
-php artisan db:seed --class=Libary_depertment
+php artisan db:seed --class=RoleSeeder;
+
+php artisan db:seed --class=UserSeeder;
 
 
-php artisan db:seed --class=Position
 
 
-php artisan db:seed --class=Year_of_study
 
-php artisan db:seed --class=RoleSeeder
 
-php artisan db:seed --class=UserSeeder
 
-username = yohanasamile@gmail.com
+username = mtuistanley@gmail.com
 
 password = 12345678
 

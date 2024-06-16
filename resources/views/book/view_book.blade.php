@@ -5,7 +5,8 @@
         <div class="card">
             <div class="card-header py-3 text-capitalize">
                 <h6 class="m-0 font-weight-bold text-dark">Book Title: {{$book->book_title}}</h6>
-                <img src="{{ Storage::url($book->cover_image) }}" alt="book-cover" width="100%" height="450px">
+                <img src="{{ asset($book->cover_image) }}"  alt="book-cover" width="100%" height="450px">
+                <!-- <img src="{{ Storage::url($book->cover_image) }}" alt="book-cover" width="100%" height="450px"> -->
                 <table id="tableToPrint" class="table table-striped mb-0">
                     <tbody>
                         <tr>

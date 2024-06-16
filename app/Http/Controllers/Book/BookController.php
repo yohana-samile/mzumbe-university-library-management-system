@@ -42,24 +42,42 @@
                 'total_copies' => 'required',
                 'genre_id' => 'required'
             ]);
-            $coverImagePath = $request->file('cover_image')->store('public/book-covers');
-            $register_book = Book::create([
-                'book_title' => $validateData['book_title'],
-                'author' => $validateData['author'],
-                'isbn' => $validateData['isbn'],
-                'publisher' => $validateData['publisher'],
-                'publication_date' => $validateData['publication_date'],
-                'edication' => $validateData['edication'],
-                'cover_image' => $coverImagePath,
-                'total_copies' => $validateData['total_copies'],
-                'genre_id' => $validateData['genre_id'],
-            ]);
-            if ($register_book) {
-                return response()->json('success');
-            }
-            else{
-                return response()->json('error');
-                Storage::delete($coverImagePath);
+            if ($request->hasFile('cover_image')) {
+                $file = $request->file('cover_image');
+                $fileName = time() . '_' . $file->getClientOriginalName();
+                $destinationPath = public_path('book-covers');
+
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0755, true);
+                }
+
+                $file->move($destinationPath, $fileName);
+
+                $coverImagePath = 'book-covers/' . $fileName;
+
+                $register_book = Book::create([
+                    'book_title' => $validateData['book_title'],
+                    'author' => $validateData['author'],
+                    'isbn' => $validateData['isbn'],
+                    'publisher' => $validateData['publisher'],
+                    'publication_date' => $validateData['publication_date'],
+                    'edication' => $validateData['edication'],
+                    'cover_image' => $coverImagePath,
+                    'total_copies' => $validateData['total_copies'],
+                    'genre_id' => $validateData['genre_id'],
+                ]);
+
+                if ($register_book) {
+                    return response()->json('success');
+                } else {
+                    // Optional: Delete the file if the database insertion fails
+                    if (file_exists(public_path($coverImagePath))) {
+                        unlink(public_path($coverImagePath));
+                    }
+                    return response()->json('error');
+                }
+            } else {
+                return response()->json('No file uploaded');
             }
         }
 
@@ -133,6 +151,17 @@
                 if ($book->wasChanged()) {
                     return response()->json('success');
                 }
+            }
+        }
+
+        // delete book
+        public function destory(Book $book){
+            $delete = $book->delete();
+            if ($delete) {
+                return response()->json("success");
+            }
+            else {
+                return response()->json("error");
             }
         }
 
@@ -246,7 +275,12 @@
 
         // view_fine
         public function view_fine(){
-            $fines = DB::select("SELECT fines.paid, fines.amount, fines.created_at, fines.id, books.book_title, users.name as user_name, borrows.toBeReturnedOn, borrows.created_at as borrow_date FROM fines, books, users, borrows WHERE fines.borrow_id = borrows.id AND borrows.user_id = users.id AND borrows.book_id = books.id ");
+            $fines = DB::select("SELECT fines.paid, fines.amount, fines.created_at, fines.id, books.book_title, users.name as user_name, borrows.toBeReturnedOn, borrows.created_at as borrow_date FROM
+                fines, books, users, borrows WHERE
+                fines.borrow_id = borrows.id AND
+                borrows.user_id = users.id AND
+                borrows.book_id = books.id
+            ");
             return view('view_fine', compact('fines'));
         }
 

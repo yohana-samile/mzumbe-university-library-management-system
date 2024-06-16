@@ -20,7 +20,9 @@
                     <div class="card border-primary mb-3" style="max-width: 20rem;">
                         <div class="card-body">
                             <h4 class="card-title">Event Name {{$event->name}}</h4>
-                            <img src="{{Storage::url($event->event_image)}}" alt="" width="100%" height="150px">
+                            <img src="{{ asset('event_images/' . $event->event_image) }}" alt="Event Image" width="100%" height="150px">
+
+                            <!-- <img src="{{Storage::url($event->event_image)}}" alt="" width="100%" height="150px"> -->
                             <p class="card-text"><a href="javascript::void()">Read More</a></p>
                             <form id="delete_event_or_announcement">
                                 @csrf

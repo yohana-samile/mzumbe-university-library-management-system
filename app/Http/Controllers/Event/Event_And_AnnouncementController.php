@@ -24,18 +24,46 @@
                 'name' => 'required',
                 'event_image' => 'required'
             ]);
-            $image_path = $request->file('event_image')->store('public/event_images');
 
-            $insert_event = Event_and_announcement::create([
-                'name' => $validateDataEvent['name'],
-                'event_image' => $image_path
-            ]);
-            if ($insert_event) {
-                return response()->json("success");
+
+            if ($request->hasFile('event_image')) {
+                $file = $request->file('event_image');
+                $fileName = time() . '_' . $file->getClientOriginalName();
+                $destinationPath = public_path('event_images');
+    
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0755, true);
+                }
+    
+                $file->move($destinationPath, $fileName);
+    
+                $event = new Event_and_announcement();
+                $event->event_image = $fileName;
+                $event->name = $request->input('name');
+                $event->save();
+    
+                if ($event) {
+                    return response()->json("success");
+                } else {
+                    return response()->json("error");
+                }
             }
-            else{
-                return response()->json("error");
+            else {
+                return response()->json("No file uploaded");
             }
+
+            // $image_path = $request->file('event_image')->store('public/event_images');
+
+            // $insert_event = Event_and_announcement::create([
+            //     'name' => $validateDataEvent['name'],
+            //     'event_image' => $image_path
+            // ]);
+            // if ($insert_event) {
+            //     return response()->json("success");
+            // }
+            // else{
+            //     return response()->json("error");
+            // }
         }
 
         // delete Events

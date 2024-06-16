@@ -50,11 +50,11 @@
                 @csrf
                 <div class="form-group">
                     <label for="username">{{__('Username')}}</label>
-                    <input type="text" name="email" id="username" class="form-control" required>
+                    <input type="text" name="email" id="username" class="form-control" placeholder="Enter your username" required>
                 </div>
                 <div class="form-group">
                     <label for="password">{{__('Password')}}</label>
-                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Enter your password" required autocomplete="current-password">
                     @error('password')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>

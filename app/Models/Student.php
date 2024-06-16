@@ -16,7 +16,7 @@
         public function medical_informations(){
             return $this->hasOne(Medical_information::class);
         }
-        public function year_of_studys(){
+        public function year_of_study(){
             return $this->belongsTo(Year_of_study::class);
         }
         public function programmes(){

@@ -1,40 +1,41 @@
 @extends('includes.header')
-@php
-    use App\Models\Service;
-    use App\Models\Event_and_announcement;
-    use App\Models\Opening_hour;
-    $services = Service::take(4)->get()->sortByDesc('created_at');
-    $events = Event_and_announcement::take(6)->get()->sortByDesc('created_at');
-    $working_hours = Opening_hour::take(7)->get()->sortByDesc('created_at');
-    use Illuminate\Support\Facades\DB;
-    $current_user_in_library = DB::table('time_entries')
-        ->whereNull('time_out')
-        ->count();
-    // trends
-    use Carbon\Carbon;
-    // for pie chart
-    $data = [
-        'labels' => [],
-        'data' => [],
-    ];
+    @php
+        use App\Models\Service;
+        use App\Models\Event_and_announcement;
+        use App\Models\Opening_hour;
+        $services = Service::take(4)->get()->sortByDesc('created_at');
+        $events = Event_and_announcement::take(6)->get()->sortByDesc('created_at');
+        $working_hours = Opening_hour::take(7)->get()->sortByDesc('created_at');
+        use Illuminate\Support\Facades\DB;
+        $current_user_in_library = DB::table('time_entries')
+            ->whereNull('time_out')
+            ->count();
+        // trends
+        use Carbon\Carbon;
 
-    $queryResult = DB::select("
-        SELECT units.unit_abbreviation AS unit_name, COUNT(time_entries.id) AS usage_count
-        FROM time_entries
-        JOIN users ON time_entries.user_id = users.id
-        JOIN students ON users.id = students.user_id
-        JOIN programmes ON students.programme_id = programmes.id
-        JOIN units ON programmes.unit_id = units.id
-        GROUP BY units.unit_abbreviation
-    ");
+        // for pie chart
+        $data = [
+            'labels' => [],
+            'data' => [],
+        ];
 
-    foreach ($queryResult as $result) {
-        $data['labels'][] = $result->unit_name;
-        $data['data'][] = $result->usage_count;
-    }
-@endphp
+        $queryResult = DB::select("
+            SELECT units.unit_abbreviation AS unit_name, COUNT(time_entries.id) AS usage_count
+            FROM time_entries
+            JOIN users ON time_entries.user_id = users.id
+            JOIN students ON users.id = students.user_id
+            JOIN programmes ON students.programme_id = programmes.id
+            JOIN units ON programmes.unit_id = units.id
+            GROUP BY units.unit_abbreviation
+        ");
 
-    <nav class="navbar navbar-expand-md navbar-light bg-primary text-white shadow-sm">
+        foreach ($queryResult as $result) {
+            $data['labels'][] = $result->unit_name;
+            $data['data'][] = $result->usage_count;
+        }
+    @endphp
+
+    <nav class="navbar navbar-expand-md navbar-light bg-primary text-white shadow-sm" style="font-family: 'Times New Roman', Times, serif">
         <div class="container">
             <a class="navbar-brand text-white" href="{{ url('/') }}">{{ __('MU-Library Management System') }}</a>
             {{-- <a class="navbar-brand btn btn-sm btn-danger text-white" href="{{ url('/login') }}"> {{__('Log Me In')}} </a> --}}
@@ -86,10 +87,7 @@
                 </div>
                 @if (!empty($services))
                     @foreach ($services as $service)
-                        <div class="alert alert-primary back-widget-set text-center">
-                            <i class="fa fa-server fa-2x"></i>
-                            <h6>{{$service->name}}</h6>
-                        </div>
+                        <p><img src="{{ asset('img/322.gif')}}" alt="service" width="30px"> {{$service->name}}</p>
                     @endforeach
                 @endif
             </div>
@@ -125,7 +123,7 @@
             </div>
             {{-- >Library opening hours --}}
             <div class="col-md-3">
-                <div class="mb-3" style="max-width: 40rem;">
+                <div class="mb-3" style="height: 30rem; max-width: 40rem;">
                     <div class="card-body">
                         <p class="text-center">{{__('Library opening hours')}}</p>
                         <table id="tableToPrint" class="table table-striped mb-0">
@@ -133,11 +131,11 @@
                                 @if (!empty($working_hours))
                                     @foreach ($working_hours as $working_hour)
                                         <tr>
-                                            <td><strong>{{$working_hour->day}}:</strong></td>
+                                            <td style="height: 5px;"><strong>{{$working_hour->day}}:</strong></td>
                                             <td>
                                                 <span>
                                                     @if ($working_hour->holiday == 1)
-                                                        <div class="alert alert-warning">It Is Holiday</div>
+                                                        <div class="badge badge-warning">It Is Holiday</div>
                                                     @else
                                                         {{$working_hour->open}}am To {{$working_hour->close}}pm
                                                     @endif
@@ -150,7 +148,6 @@
                         </table>
                     </div>
                 </div>
-
                 {{-- event --}}
             </div>
         </div>
@@ -225,36 +222,70 @@
 
 
     {{-- announcement --}}
-    <div class="container bg-light">
+    <div class="container bg-light" style="font-family: 'Times New Roman', Times, serif">
         <div class="text-center">
-            <h4>Announcemnts and Events</h4>
+            <h4>Realated Sites</h4>
             <input type="range" value="Our Services">
+            <p style="font-family: 'Times New Roman', Times, serif">
+                The MU Library maintains and provides access to a wide variety of online or electronic resources in various subjects. Electronic resources available are in the versions of e-books, and e-journals among others. MU Library subscribes to a wide variety of authoritative online databases such as EBSCO Host, Wiley, and Emerald, among others. Access of most of these resources are IP address based, meaning that they can be accessed within MU using the University internet.
+            </p>
             <div id="announcement">
-                @if (!empty($events))
                 <div class="row">
-                    @foreach ($events as $key => $event)
-                        <div class="col-md-4">
-                            <div class="card border-primary mb-3" style="max-width: 20rem;">
-                                <div class="card-body">
-                                    <h4 class="card-title">Event Name {{$event->name}}</h4>
-                                    <img src="{{Storage::url($event->event_image)}}" alt="" width="100%" height="150px">
-                                    <p class="card-text"><a href="javascript:void(0)">Read More</a></p>
-                                </div>
-                            </div>
-                        </div>
-
-                        {{-- Check if it's the last card or the third card in a row --}}
-                        @if (($key + 1) % 3 == 0 || $loop->last)
-                            </div> {{-- Close the row --}}
-                            {{-- If it's not the last event, open a new row --}}
-                            @if (!$loop->last)
-                                <div class="row">
-                            @endif
-                        @endif
-                    @endforeach
+                    <div class="col-md-4">
+                        <h5>EBSCO Host Research Databases:</h5>
+                        <p>
+                            Good coverage of most branches of social sciences and humanities, Strong business coverage, Strong nursing, medicine and allied health coverage, dedicated newspaper database
+                        </p>
+                        <p>
+                            <a href="https://search.ebscohost.com/Community.aspx?ugt=62E771363C0635073716355632553E6226E360D36313639363E322E334133603&authtype=ip&stsug=AnG6dLPEHFmKy7pZfthnV5CY1KptjSn-4QzEG2_0WAF8mcKHS_GTwbyjlbIYec_mxlf7r--mZLCaQ6LAhFz6c7Mf4HFRE0YtMJWiiDMaKPW4h8xOAqLaZzOlG5KybEEEqTQEEheFlNnB-CWaORxkUPyVwqhOQXOweRPMcS84Q1tIcgc&IsAdminMobile=N&encid=22D731163C5635973796358632553C373643307373C373C373C372C374C376C370C331" target="_blank">Go To The Source</a>
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>Research for Global Justice (GOALI):</h5>
+                        <p>
+                            GOALI - Global Online Access to Legal Information is a new programme providing free or low- cost online access to legal research and training in the developing world.
+                        </p>
+                        <p>
+                            <a href="https://www.ilo.org/goali" target="_blank">Go To The Source</a>
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>University of Chicago Press:</h5>
+                        <p>
+                            This database present original research in the social sciences, humanities, education, and biological and physical sciences.
+                        </p>
+                        <p>
+                            <a href="https://press.uchicago.edu/index.html" target="_blank">Go To The Source</a>
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>IMF e-Library:</h5>
+                        <p>
+                            The IMF is viewed as one of the world’s most authoritative sources for economic information, analysis and harmonized statistics.
+                        </p>
+                        <p>
+                            <a href="https://www.elibrary.imf.org/" target="_blank">Go To The Source</a>
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>University of California:</h5>
+                        <p>
+                            Subject strength: research, health, art & humanities
+                        </p>
+                        <p>
+                            <a href="https://online.ucpress.ed%20u/journal" target="_blank">Go To The Source</a>
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>E-duke journals scholarly collection:</h5>
+                        <p>
+                            African studies, anthropology, art & art history, Asian studies, criticism & theory, cultural studies, economics, education, environmental humanities, ethnography, European studies, fiction & poetry, film & media studies, gender & sexuality studies, literary studies.
+                        </p>
+                        <p>
+                            <a href="https://dlts.mzumbe.ac.tz/" target="_blank">Go To The Source</a>
+                        </p>
+                    </div>
                 </div>
-
-                @endif
             </div>
         </div>
     </div>
@@ -280,7 +311,7 @@
 
         <!--  -->
         <div class="text-center p-3" style="background-color: rgba(171, 157, 157, 0.554);">
-            © 2024 Copyright: (Stanlay Mtui)
+            © 2024 Copyright: (Stanley Mtui)
             <a class="text-body text-decoration-none" href="https://site.mzumbe.ac.tz/">Mzumbe University Library Management System</a>
         </div>
     </footer>

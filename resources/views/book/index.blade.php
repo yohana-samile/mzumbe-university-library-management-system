@@ -79,6 +79,14 @@
                                                         </a>
                                                     </div>
                                                     <div class="col-md-4">
+                                                        <div class="" hidden>
+                                                            <form method="POST" action="{{ route('delete_book', ['book' => $book->id]) }}">
+                                                                @csrf
+                                                                <button class="btn btn-white text-white" type="submit" name="submit">
+                                                                    <i class="fa fa-trash text-danger"></i>
+                                                                </button>
+                                                            </form>
+                                                        </div>
                                                         <i class="fa fa-trash text-danger"></i>
                                                     </div>
                                                 </div>
